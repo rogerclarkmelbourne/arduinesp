@@ -27,6 +27,7 @@
   extern "C"{
 #endif
 
+
 #include "os_type.h"
 #include "ets_sys.h"
 #include "osapi.h"
@@ -39,6 +40,8 @@
 #include "wifi.h"
 #include "HardwareSerial.h"
 #include "pins_arduino.h"
+
+#include "user_interface.h"// Can't imagine any useful program not needing to interface with the Esp8266 SDK
 
 #define HIGH 0x1
 #define LOW  0x0
