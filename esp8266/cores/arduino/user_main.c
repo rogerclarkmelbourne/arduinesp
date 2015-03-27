@@ -35,9 +35,9 @@
 bool firsttime = true;
 //os_event_t    user_procTaskQueue[user_procTaskQueueLen];
 
-static volatile os_timer_t some_timer;
+static volatile os_timer_t main_timer;
 
-void myloop(void *arg) // in Arduino this is loop the main loop
+void main_loop(void *arg) // in Arduino this is loop the main loop
 //static void ICACHE_FLASH_ATTR myloop(os_event_t *events) 
 {
 	if(firsttime == true) {  // Show some info like dhcp server start. Starts after first time system_os_post
@@ -51,9 +51,9 @@ void myloop(void *arg) // in Arduino this is loop the main loop
 	
 	os_delay_us(10000); //otherwise too fast restart loop and in conflict with uart os_print.
 	//system_os_post(user_procTaskPrio, 0, 0 ); // Put the same task (this task) in the queue 
-    os_timer_disarm(&some_timer);
-    os_timer_setfn(&some_timer, (os_timer_func_t *)myloop, NULL);
-    os_timer_arm(&some_timer, 1000, 0);
+    os_timer_disarm(&main_timer);
+    os_timer_setfn(&main_timer, (os_timer_func_t *)main_loop, NULL);
+    os_timer_arm(&main_timer, 1000, 0);
 	
 }
 
@@ -69,14 +69,14 @@ user_init()  // in arduino this is setup()
 	//system_os_task(myloop, user_procTaskPrio,user_procTaskQueue, user_procTaskQueueLen);
     //system_os_post(user_procTaskPrio, 0, 0 );	 // Put the first time the task in the queue 
 	
-	os_timer_disarm(&some_timer);
-    os_timer_setfn(&some_timer, (os_timer_func_t *)myloop, NULL);
+	os_timer_disarm(&main_timer);
+    os_timer_setfn(&main_timer, (os_timer_func_t *)main_loop, NULL);
 
     //Arm the timer
     //&some_timer is the pointer
     //1000 is the fire time in ms
     //0 for once and 1 for repeating
-    os_timer_arm(&some_timer, 1000, 0);
+    os_timer_arm(&main_timer, 1000, 0);
 
 	
 	
